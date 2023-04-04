@@ -52,7 +52,7 @@
       formData.append("option", option);
       formData.append("name", name);
 
-      const response = await fetch("/register", {
+      const response = await fetch("https://flaskselectorapp.azurewebsites.net/register", {
         method: "POST",
         body: formData,
       });
@@ -119,7 +119,7 @@
     }
 
     async function loadRegistrations() {
-  const response = await fetch("/registrations");
+  const response = await fetch("https://flaskselectorapp.azurewebsites.net/registrations");
   const data = await response.json();
   const registrationsMap = data.reduce((acc, reg) => {
     if (!acc[reg.option]) {
