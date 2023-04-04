@@ -30,23 +30,61 @@
   <script>
     const options = ["选项1", "选项2", "选项3", "选项4"];
 
-    function chooseRandomOption() {
-      const randomIndex = Math.floor(Math.random() * options.length);
-      const randomChoice = options[randomIndex];
-      document.getElementById("random-choice").innerText = "随机选择的选项是：" + randomChoice;
-    }
-
-    function registerOption(event, option) {
+    async function registerOption(event, option) {
       event.preventDefault();
       const name = event.target.elements.name.value;
       if (!name) {
         alert("请输入您的名字");
         return;
       }
-      const optionElement = document.getElementById("option-" + option);
-      const registeredNames = optionElement.querySelector(".registered-names");
-      registeredNames.innerHTML += "<li>" + name + "</li>";
-      event.target.elements.name.value = "";
+
+      const formData = new FormData();
+      formData.append("option", option);
+      formData.append("name", name);
+
+      const response = await fetch("/register", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+        event.target.elements.name.value = "";
+        loadRegistrations();
+      } else {
+        alert("报名失败，请稍后再试");
+      }
+    }
+
+    async function loadRegistrations() {
+      const response = await fetch("/registrations");
+      const data = await response.json();
+      const registrationsMap = data.reduce((acc, reg) => {
+        if (!acc[reg.option]) {
+          acc[reg.option] = [];
+        }
+        acc[reg.option].push(reg.name);
+    return acc;
+  }, {});
+
+  options.forEach(option => {
+    const optionElement = document.getElementById("option-" + option);
+    const registeredNames = optionElement.querySelector(".registered-names");
+    registeredNames.innerHTML = "";
+
+    if (registrationsMap[option]) {
+      registrationsMap[option].forEach(name => {
+        registeredNames.innerHTML += "<li>" + name + "</li>";
+      });
+    }
+  });
+}
+
+function chooseRandomOption() {
+      const randomIndex = Math.floor(Math.random() * options.length);
+      const randomChoice = options[randomIndex];
+      document.getElementById("random-choice").innerText = "随机选择的选项是：" + randomChoice;
     }
 
     function createOptionForm(option) {
@@ -72,20 +110,20 @@
     }
 
     function createOption(option) {
-      const optionElement = document.createElement("div");
-      optionElement.className = "option";
-      optionElement.id = "option-" + option;
+      const optionElement = document.createElement("div
+  optionElement.className = "option";
+  optionElement.id = "option-" + option;
 
-      const title = document.createElement("h3");
-      title.innerText = option;
-      optionElement.appendChild(title);
+  const title = document.createElement("h3");
+  title.innerText = option;
+  optionElement.appendChild(title);
 
-      const form = createOptionForm(option);
-      optionElement.appendChild(form);
+  const form = createOptionForm(option);
+  optionElement.appendChild(form);
 
-      const registeredNames = document.createElement("ul");
-      registeredNames.className = "registered-names";
-      optionElement.appendChild(registeredNames);  
+  const registeredNames = document.createElement("ul");
+  registeredNames.className = "registered-names";
+  optionElement.appendChild(registeredNames);  
   return optionElement;
 }
 
@@ -98,7 +136,5 @@ function renderOptions(options) {
 }
 
 renderOptions(options);
-  </script>
-</body>
-</html>
-```
+loadRegistrations();
+</script>
