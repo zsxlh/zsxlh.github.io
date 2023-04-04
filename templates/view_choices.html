@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户选择查看</title>
+</head>
+<body>
+    <h1>用户选择</h1>
+    <table>
+        <tr>
+            <th>用户名</th>
+            <th>选择</th>
+        </tr>
+        {% for user_name, selected_option in choices.items() %}
+            <tr>
+                <td>{{ user_name }}</td>
+                <td>{{ selected_option }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('index') }}">返回首页</a>
+</body>
+</html>
