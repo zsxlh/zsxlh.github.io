@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古文选项网站</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+</head>
+<body>
+    <h1>古文选项网站</h1>
+    <p>荣辱之大分，安危利害之常体：先义而后利者荣，先利而后义者辱；荣者常通，辱者常穷；通者常制人，穷者常制于人：是荣辱之大分也。材悫者常安利，荡悍者常危害；安利者常乐易，危害者常忧险；乐易者常寿长，忧险者常夭折：是安危利害之常体也。</p>
+    <p>夫天生蒸民，有所以取之：志意致修，德行致厚，智虑致明，是天子之所以取天下也。政令法，举措时，听断公，上则能顺天子之命，下则能保百姓，是诸侯之所以取国家也。志行修，临官治，上则能顺上，下则能保其职，是士大夫之所以取田邑也。循法则、度量、刑辟、图籍、不知其义，谨守其数，慎不敢损益也；父子相传，以持王公，是故三代虽亡，治法犹存，是官人百吏之所以取禄职也。孝弟原悫，軥录疾力，以敦比其事业，而不敢怠傲，是庶人之所以取暖衣饱食，长生久视，以免于刑戮也。饰邪说，文奸言，为倚事，陶诞突盗，惕悍憍暴，以偷生反侧于乱世之间，是奸人之所以取危辱死刑也。其虑之不深，其择之不谨，其定取舍楛僈，是其所以危也。</p>
+    <form action="{{ url_for('submit') }}" method="POST">
+        <div>
+            <label for="user_name">输入您的名字：</label>
+            <input type="text" id="user_name" name="user_name">
+        </div>
+        <div>
+            <label for="selected_option">选择一个选项：</label>
+            <select id="selected_option" name="selected_option">
+                <option value="1">荣和辱的含义。</option>
+                <option value="2">材悫的含义。</option>
+                <option value="3">荡悍的含义。</option>
+                <option value="4">何谓天生蒸民。</option>
+                <option value="5">志意致修和志行修的区别是什么？</option>
+            </select>
+        </div>
+        <button type="submit">提交选择</button>
+    </form>
+    <form action="{{ url_for('random_assign') }}" method="POST">
+        <div>
+            <label for="user_name">输入您的名字：</label>
+            <input type="text" id="user_name" name="user_name">
+        </div>
+        <button type="submit">随机分配</button>
+    </form>
+    <a href="{{ url_for('view_choices') }}">查看所有用户选择</a>
+    <script>
+        function showMessage(message) {
+            alert(message);
+        }
+    </script>
+</body>
+</html>
