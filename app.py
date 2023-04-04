@@ -23,5 +23,9 @@ def random_assign():
     choices[user_name] = selected_option
     return jsonify({"message": f"用户 {user_name} 被随机分配到选项 {selected_option}"}), 200
 
+@app.route('/view_choices')
+def view_choices():
+    return render_template('view_choices.html', choices=choices)
+
 if __name__ == '__main__':
     app.run(debug=True)
