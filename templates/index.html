@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古文选项网站</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+</head>
+<body>
+    <h1>古文选项网站</h1>
+    <p>这里是古文内容。</p>
+    <div>
+        <label for="user_name">输入您的名字：</label>
+        <input type="text" id="user_name" name="user_name">
+    </div>
+    <div>
+        <label for="selected_option">选择一个选项：</label>
+        <select id="selected_option" name="selected_option">
+            <option value="1">选项 1</option>
+            <option value="2">选项 2</option>
+            <option value="3">选项 3</option>
+            <option value="4">选项 4</option>
+            <option value="5">选项 5</option>
+        </select>
+    </div>
+    <button id="submit">提交选择</button>
+    <button id="random_assign">随机分配</button>
+    <script>
+        function showMessage(message) {
+            alert(message);
+        }
+
+        $('#submit').click(function() {
+            let user_name = $('#user_name').val();
+            let selected_option = $('#selected_option').val();
+            $.post('/submit', {user_name: user_name, selected_option: selected_option}, function(data) {
+                showMessage(data.message);
+            });
+        });
+
+        $('#random_assign').click(function() {
+            let user_name = $('#user_name').val();
+            $.post('/random_assign', {user_name: user_name}, function(data) {
+                showMessage(data.message);
+            });
+        });
+    </script>
+</body>
+</html>
